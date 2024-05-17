@@ -5,8 +5,8 @@ abstract class AppTranslationData {
   static List<AppTranslatedData> data = [
     const AppTranslatedData(
       key: AppTranslationStrings.appName,
-      en: 'Dummy App',
-      bn: 'ডামি অ্যাপ',
+      en: 'Github Flutter Stargazers',
+      bn: 'গিটহাব ফ্লাটার স্টারগেজারস',
     ),
     const AppTranslatedData(
       key: AppTranslationStrings.translation,

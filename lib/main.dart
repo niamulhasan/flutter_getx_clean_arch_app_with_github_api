@@ -16,7 +16,7 @@ void main() async {
   var initialRoute = await Routes.initialRoute;
 
 
-  MinRest.init("http://wallpaper-app.mychildhoods.com/api");
+  MinRest.init("https://api.github.com");
 
   runApp(
     Main(

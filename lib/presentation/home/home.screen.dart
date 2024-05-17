@@ -15,7 +15,7 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTranslationStrings.appName.tr),
+        title: Text(AppTranslationStrings.appName.tr, style: Get.theme.textTheme.titleSmall),
         centerTitle: true,
         actions: [
           ThemeToggleSwitch(

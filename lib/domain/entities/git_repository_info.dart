@@ -7,7 +7,7 @@ class GitRepositoryInfo {
   final String name;
   final String fullName;
   final bool private;
-  final String description;
+  final String? description;
   final String url;
   final Owner owner;
 

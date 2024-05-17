@@ -24,7 +24,7 @@ class GithubRepositoryInfoRepositoryImpl implements RepositoryInfoRepository {
   @override
   Future<Either<Failure, RestResponse<GitRepositoryInfo>>> getTopStargazers({
     int pageNumber = 1,
-    int perPage = 20,
+    int perPage = 10,
   }) async {
     Either<MinRestError, RestResponse<GitRepositoryInfo>> result =
         await MinRest().getErrorOr(

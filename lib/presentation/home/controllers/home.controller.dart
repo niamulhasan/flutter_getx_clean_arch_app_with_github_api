@@ -21,7 +21,7 @@ class HomeController extends GetxController {
     _initRepositoryViewModel();
   }
 
-  final int _repositoryItemsPerPage = 20;
+  final int _repositoryItemsPerPage = 10;
 
   void _initRepositoryViewModel() {
     stargazersRepositoriesViewModel.setFetcher(

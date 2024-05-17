@@ -11,6 +11,7 @@ class GitRepositoryInfoModel extends GitRepositoryInfo {
     required super.description,
     required super.url,
     required super.stargazersCount,
+    required super.updatedAt,
     required super.owner,
   });
 
@@ -23,6 +24,7 @@ class GitRepositoryInfoModel extends GitRepositoryInfo {
       description: json['description'],
       url: json['url'],
       stargazersCount: json['stargazers_count'],
+      updatedAt: DateTime.parse(json['updated_at']),
       owner: OwnerModel.fromJson(json['owner']),
     );
   }
@@ -36,6 +38,7 @@ class GitRepositoryInfoModel extends GitRepositoryInfo {
       description: entity.description,
       url: entity.url,
       stargazersCount: entity.stargazersCount,
+      updatedAt: entity.updatedAt,
       owner: OwnerModel.fromEntity(entity.owner),
     );
   }
@@ -49,6 +52,7 @@ class GitRepositoryInfoModel extends GitRepositoryInfo {
       'description': description,
       'url': url,
       'stargazers_count': stargazersCount,
+      'updated_at': updatedAt.toIso8601String(),
       'owner': OwnerModel.fromEntity(owner).toJson(),
     };
   }

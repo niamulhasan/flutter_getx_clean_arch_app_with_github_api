@@ -10,6 +10,7 @@ class GitRepositoryInfo {
   final String? description;
   final String url;
   final int stargazersCount;
+  final DateTime updatedAt;
   final Owner owner;
 
   const GitRepositoryInfo({
@@ -20,6 +21,7 @@ class GitRepositoryInfo {
     required this.description,
     required this.url,
     required this.stargazersCount,
+    required this.updatedAt,
     required this.owner,
   });
 }

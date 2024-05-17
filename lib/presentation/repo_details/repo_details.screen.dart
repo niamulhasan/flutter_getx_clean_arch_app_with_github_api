@@ -25,7 +25,17 @@ class RepoDetailsScreen extends GetView<RepoDetailsController> {
             children: [
               RepoDetailsHeader(controller: controller),
               const SizedBox(height: 8),
-              Text(controller.routeArguments.fullName),
+              Text(
+                controller.routeArguments.fullName,
+                style: Get.textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Updated at: ${controller.routeArguments.updatedAt.toUtc()}",
+                style: Get.textTheme.titleSmall!.copyWith(
+                  color: Colors.black87.withOpacity(0.5),
+                ),
+              ),
               const SizedBox(height: 8),
               Text(
                 controller.routeArguments.url,
@@ -33,7 +43,7 @@ class RepoDetailsScreen extends GetView<RepoDetailsController> {
                   decoration: TextDecoration.underline,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 28),
               Text(
                 controller.routeArguments.description ?? "No Description",
                 style: Get.textTheme.bodyMedium!.copyWith(

@@ -20,15 +20,6 @@ class HomeScreen extends GetView<HomeController> {
         title: Text(AppTranslationStrings.appName.tr,
             style: Get.theme.textTheme.titleSmall),
         centerTitle: true,
-        actions: [
-          // ThemeToggleSwitch(
-          //   DependencyLocator.locate(),
-          //   DependencyLocator.locate(),
-          // ),
-          LanguageSwitchButton(
-            DependencyLocator.locate(),
-          ),
-        ],
       ),
       body: controller.stargazersRepositoriesViewModel.fold(
         onLoading: const Center(

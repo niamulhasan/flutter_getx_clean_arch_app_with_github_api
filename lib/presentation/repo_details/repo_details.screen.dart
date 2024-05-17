@@ -1,22 +1,47 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:starter_project/presentation/repo_details/widgets/repo_details_header_section.dart';
 
 import 'controllers/repo_details.controller.dart';
 
 class RepoDetailsScreen extends GetView<RepoDetailsController> {
-  const RepoDetailsScreen({Key? key}) : super(key: key);
+  const RepoDetailsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RepoDetailsScreen'),
+        title: Text(
+          controller.routeArguments.name,
+          style: Get.theme.textTheme.titleLarge,
+        ),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'RepoDetailsScreen is working',
-          style: TextStyle(fontSize: 20),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 12),
+          child: Column(
+            children: [
+              RepoDetailsHeader(controller: controller),
+              const SizedBox(height: 8),
+              Text(controller.routeArguments.fullName),
+              const SizedBox(height: 8),
+              Text(
+                controller.routeArguments.url,
+                style: Get.textTheme.bodyMedium!.copyWith(
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                controller.routeArguments.description ?? "No Description",
+                style: Get.textTheme.bodyMedium!.copyWith(
+                  color: Colors.black87.withOpacity(0.5),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

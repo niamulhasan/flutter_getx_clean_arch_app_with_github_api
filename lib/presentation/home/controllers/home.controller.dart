@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:starter_project/domain/entities/git_repository_info.dart';
 import 'package:starter_project/domain/repositories/repository_info.repository.dart';
 
@@ -38,4 +39,15 @@ class HomeController extends GetxController {
       cacheInstantly: true,
     );
   }
+
+
+  //region Ui Stuffs
+  RefreshController refreshController =
+  RefreshController(initialRefresh: false);
+
+  void onRefresh() async {
+    _initRepositoryViewModel();
+    refreshController.refreshCompleted();
+  }
+  //endregion
 }

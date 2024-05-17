@@ -9,6 +9,7 @@ class GitRepositoryInfo {
   final bool private;
   final String? description;
   final String url;
+  final int stargazersCount;
   final Owner owner;
 
   const GitRepositoryInfo({
@@ -18,6 +19,7 @@ class GitRepositoryInfo {
     required this.private,
     required this.description,
     required this.url,
+    required this.stargazersCount,
     required this.owner,
   });
 }

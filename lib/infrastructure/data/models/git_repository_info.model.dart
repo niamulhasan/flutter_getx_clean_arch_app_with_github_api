@@ -25,5 +25,27 @@ class GitRepositoryInfoModel extends GitRepositoryInfo {
     );
   }
 
+  factory GitRepositoryInfoModel.fromEntity(GitRepositoryInfo entity) {
+    return GitRepositoryInfoModel(
+      id: entity.id,
+      name: entity.name,
+      fullName: entity.fullName,
+      private: entity.private,
+      description: entity.description,
+      url: entity.url,
+      owner: OwnerModel.fromEntity(entity.owner),
+    );
+  }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'full_name': fullName,
+      'private': private,
+      'description': description,
+      'url': url,
+      'owner': OwnerModel.fromEntity(owner).toJson(),
+    };
+  }
 }

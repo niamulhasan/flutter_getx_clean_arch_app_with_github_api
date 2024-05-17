@@ -33,6 +33,9 @@ class HomeController extends GetxController {
       previousItems..addAll(wrapper.items),
       lastPageNoSetter: (wrapper) => wrapper.totalCount ~/ _repositoryItemsPerPage,
       fetchInstantly: true,
+      cacher: (data) => _repositoryInfoRepository.cacheTopStargazers(data.items),
+      cacheRetriever: _repositoryInfoRepository.getCachedTopStargazers,
+      cacheInstantly: true,
     );
   }
 }

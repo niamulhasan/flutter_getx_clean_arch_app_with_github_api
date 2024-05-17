@@ -30,7 +30,7 @@ class DomainLayerDependencyInjectionContainer {
     );
 
     Get.lazyPut<RepositoryInfoRepository>(
-      () => GithubRepositoryInfoRepositoryImpl(),
+      () => GithubRepositoryInfoRepositoryImpl(sharedPreferences),
       fenix: true, // fenix: true means singleton so that it will be created only once and will be reused accross the app
     );
     //endregion

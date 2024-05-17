@@ -36,36 +36,16 @@ class HomeScreen extends GetView<HomeController> {
         onEmpty: const Center(
           child: Text("No Repositories Found"),
         ),
-        onError: (failure) => Center(
-          child: Text(failure.message, style: Get.textTheme.titleSmall),
-        ),
-        onData: (data) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (notification) {
-              //triggering next page loading when scroll reaches the end
-              if (notification is ScrollEndNotification &&
-                  notification.metrics.extentAfter == 0) {
-                controller.stargazersRepositoriesViewModel.fetchNext();
-              }
-              return false;
-            },
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.55,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
-              ),
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                // final wallpaper = wallpapersPaginatedResponse[index];
-                // return AppWallpaperGridItem(wallpaper: wallpaper);
-                return RepoInfoCard(data[index]);
-              },
-            ),
-          ),
-        ),
+        onError: (failure) {
+          if(!controller.stargazersRepositoriesViewModel.hasCachedData){
+            return Center(
+              child: Text(failure.toString()),
+            );
+          } else {
+            return ReposGridSection(controller.stargazersRepositoriesViewModel.items);
+          }
+        },
+        onData: (data) => ReposGridSection(data),
         onLoadingMore: Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
@@ -76,6 +56,46 @@ class HomeScreen extends GetView<HomeController> {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ReposGridSection extends GetView<HomeController> {
+  final List<GitRepositoryInfo> data;
+
+  const ReposGridSection(
+    this.data, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          //triggering next page loading when scroll reaches the end
+          if (notification is ScrollEndNotification &&
+              notification.metrics.extentAfter == 0) {
+            controller.stargazersRepositoriesViewModel.fetchNext();
+          }
+          return false;
+        },
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.55,
+            crossAxisSpacing: 4,
+            mainAxisSpacing: 4,
+          ),
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            // final wallpaper = wallpapersPaginatedResponse[index];
+            // return AppWallpaperGridItem(wallpaper: wallpaper);
+            return RepoInfoCard(data[index]);
+          },
         ),
       ),
     );

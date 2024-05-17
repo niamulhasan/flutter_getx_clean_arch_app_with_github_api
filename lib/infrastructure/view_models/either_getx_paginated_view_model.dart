@@ -31,7 +31,12 @@ class GetxUnionPaginatedViewModel<E, T, I> {
 
   GetxUnionViewModelState get viewState => _viewState.value;
 
+  final _hasCachedData = false.obs;
+  bool get hasCachedData => _hasCachedData.value;
+
   Future<Either<E, T>> Function(int pageNo)? _fetcher;
+  Future<Either<E, Unit>> Function(T data)? _cacher;
+  Future<Either<E, List<I>>> Function()? _cacheRetriever;
 
   int _pageNo = 1;
 
@@ -57,22 +62,27 @@ class GetxUnionPaginatedViewModel<E, T, I> {
   /// [initialPageNo] is the page number to fetch
   /// [lastPageNo] is the last page number to fetch
   /// if [lastPageNo] is null then [fetchNext] will be kept calling
-  void setFetcher({
+  Future<void> setFetcher({
     required Future<Either<E, T>> Function(int pageNo) fetcher,
     required List<I> Function(T wrapper, List<I> previousItems)? onNextPageLoad,
     bool fetchInstantly = false,
     int initialPageNo = 1,
     int Function(T wrapper)? lastPageNoSetter,
-  }) {
+    Future<Either<E, Unit>> Function(T data)? cacher,
+    Future<Either<E, List<I>>> Function()? cacheRetriever,
+    bool cacheInstantly = false,
+  }) async {
     assert(fetcher != onNextPageLoad);
     _pageNo = initialPageNo;
     _fetcher = fetcher;
+    _cacher = cacher;
     _itemAssignerToWrapper = onNextPageLoad;
     _lastPageNoSetter = lastPageNoSetter;
 
-    if (fetchInstantly) {
-      fetch();
-    }
+    _cacheRetriever = cacheRetriever;
+    if(_cacheRetriever != null) retrieveCache();
+    if (fetchInstantly) await fetch();
+    if (cacheInstantly) cache();
   }
 
   Future<void> fetch() async {
@@ -125,6 +135,41 @@ class GetxUnionPaginatedViewModel<E, T, I> {
       _viewState.value = GetxUnionViewModelState.data;
     });
   }
+
+  //region caching mechanism
+  Future<void> cache() async {
+    debugPrint("Caching");
+    if (_cacher == null) {
+      log("cacher is null. Have you forgotten to set it?");
+      return;
+    }
+    if (_data.value == null) {
+      log("Got null Data while caching. Have you forgotten to fetch it?");
+      return;
+    }
+    final result = await _cacher!(data);
+    result.fold((l) {
+      log("Error caching data: $l");
+    }, (r) {
+      log("Data cached successfully");
+    });
+  }
+
+  Future<void> retrieveCache() async {
+    if (_cacheRetriever == null) {
+      log("cacheRetriever is null. Have you forgotten to set it?");
+      return;
+    }
+    final result = await _cacheRetriever!();
+    result.fold((l) {
+      log("Error retrieving cache: $l");
+    }, (r) {
+      // _data.value = r;
+      _items.value = r;
+      _hasCachedData.value = true;
+    });
+  }
+  //endregion
 
   //fold
   Obx fold({

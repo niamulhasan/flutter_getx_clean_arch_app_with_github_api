@@ -8,4 +8,7 @@ abstract interface class RepositoryInfoRepository {
     int pageNumber = 1,
     int perPage = 20,
   });
+
+  Future<Either<Failure, Unit>> cacheTopStargazers(List<GitRepositoryInfo> gitRepos);
+  Future<Either<Failure, List<GitRepositoryInfo>>> getCachedTopStargazers();
 }

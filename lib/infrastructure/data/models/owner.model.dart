@@ -14,4 +14,20 @@ class OwnerModel extends Owner {
       avatarUrl: json['avatar_url'],
     );
   }
+
+  factory OwnerModel.fromEntity(Owner entity) {
+    return OwnerModel(
+      id: entity.id,
+      login: entity.login,
+      avatarUrl: entity.avatarUrl,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'login': login,
+      'avatar_url': avatarUrl,
+    };
+  }
 }

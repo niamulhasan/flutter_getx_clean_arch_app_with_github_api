@@ -15,9 +15,9 @@ class RestResponse<E> {
     return RestResponse(
       totalCount: json['total_count'],
       incompleteResults: json['incomplete_results'],
-      items: json['data'] is List
-          ? (json['data'] as List).map<E>((e) => dataDeSerializer(e)).toList()
-          : json['data'],
+      items: json['items'] is List
+          ? (json['items'] as List).map<E>((e) => dataDeSerializer(e)).toList()
+          : json['items'],
     );
   }
 }

@@ -15,13 +15,15 @@ class GithubRepositoryInfoRepositoryImpl implements RepositoryInfoRepository {
   }) async {
     Either<MinRestError, RestResponse<GitRepositoryInfo>> result =
         await MinRest().getErrorOr(
-            "https://api.github.com/search/repositories?q=Flutter&sort=stars&order=desc&page=1&per_page=20",
-            (json) => RestResponse<GitRepositoryInfo>.fromJson(
-                  json,
-                  (json) => GitRepositoryInfoModel.fromJson(json),
-                ));
+      "/search/repositories?q=Flutter&sort=stars&order=desc&page=$pageNumber&per_page=$perPage",
+      (json) => RestResponse<GitRepositoryInfo>.fromJson(
+        json,
+        (json) => GitRepositoryInfoModel.fromJson(json),
+      ),
+    );
     return result.fold(
-      (error) => Left(Failure("Failed to Fetch Data", "${error.message} (${error.code})")),
+      (error) => Left(
+          Failure("Failed to Fetch Data", "${error.message} (${error.code})")),
       (response) => Right(response),
     );
   }

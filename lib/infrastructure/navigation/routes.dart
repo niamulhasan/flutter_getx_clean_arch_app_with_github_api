@@ -5,4 +5,5 @@ class Routes {
   }
 
   static const HOME = '/home';
+  static const REPO_DETAILS = '/repo-details';
 }

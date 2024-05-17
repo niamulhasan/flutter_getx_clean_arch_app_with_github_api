@@ -1,1 +1,2 @@
 export 'package:starter_project/infrastructure/navigation/bindings/controllers/home.controller.binding.dart'; 
+export 'package:starter_project/infrastructure/navigation/bindings/controllers/repo_details.controller.binding.dart'; 

@@ -31,5 +31,10 @@ class Nav {
       page: () => const HomeScreen(),
       binding: HomeControllerBinding(),
     ),
+    GetPage(
+      name: Routes.REPO_DETAILS,
+      page: () => const RepoDetailsScreen(),
+      binding: RepoDetailsControllerBinding(),
+    ),
   ];
 }

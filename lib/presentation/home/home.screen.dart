@@ -7,6 +7,7 @@ import 'package:starter_project/presentation/home/components/language_switch_but
 import 'package:starter_project/presentation/home/components/theme_toggle_switch.dart';
 
 import '../../domain/entities/git_repository_info.dart';
+import 'components/repos_grid_section.dart';
 import 'controllers/home.controller.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -62,112 +63,6 @@ class HomeScreen extends GetView<HomeController> {
   }
 }
 
-class ReposGridSection extends GetView<HomeController> {
-  final List<GitRepositoryInfo> data;
 
-  const ReposGridSection(
-    this.data, {
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14.0),
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          //triggering next page loading when scroll reaches the end
-          if (notification is ScrollEndNotification &&
-              notification.metrics.extentAfter == 0) {
-            controller.stargazersRepositoriesViewModel.fetchNext();
-          }
-          return false;
-        },
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.55,
-            crossAxisSpacing: 4,
-            mainAxisSpacing: 4,
-          ),
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            // final wallpaper = wallpapersPaginatedResponse[index];
-            // return AppWallpaperGridItem(wallpaper: wallpaper);
-            return RepoInfoCard(data[index]);
-          },
-        ),
-      ),
-    );
-  }
-}
 
-class RepoInfoCard extends StatelessWidget {
-  final GitRepositoryInfo repo;
-
-  const RepoInfoCard(
-    this.repo, {
-    super.key,
-  });
-
-  String _trimDescription(String? description) {
-    if (description == null) {
-      return "No Description";
-    }
-    if (description.length > 100) {
-      return "${description.substring(0, 100)}...";
-    }
-    return description;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    repo.name,
-                    style: Get.textTheme.titleLarge,
-                  ),
-                ),
-                Icon(
-                  repo.private ? Icons.lock : Icons.lock_open,
-                  color: repo.private ? Colors.red : Colors.green,
-                  size: 22.0,
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _trimDescription(repo.description),
-              style: Get.textTheme.bodyMedium!.copyWith(
-                color: Colors.black87.withOpacity(0.5),
-              ),
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  repo.owner.login,
-                  style: Get.textTheme.titleSmall,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(width: 12),
-                CircleAvatar(
-                  radius: 12,
-                  backgroundImage: NetworkImage(repo.owner.avatarUrl),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
